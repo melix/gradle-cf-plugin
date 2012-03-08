@@ -15,28 +15,27 @@
 
 package org.gradle.cf
 
-import org.junit.Test
-import org.gradle.testfixtures.ProjectBuilder
-import org.gradle.api.Project
-import static org.junit.Assert.*
-import org.junit.Before
-import org.junit.Ignore
+import org.gradle.api.GradleException
 
-class CloudFoundryPluginTest {
-    Project project
+/**
+ * Base class for tasks related to the createApplication API.
+ *
+ * @author Cedric Champeau
+ */
+abstract class AbstractCreateApplicationCloudFoundryTask extends AbstractCloudFoundryTask {
+    String application
+    String framework
+    int memory
+    List<String> uris
+    List<String> services
+    File warFile
 
-    @Before
-    public void setUp() {
-        project = ProjectBuilder.builder().build()
-        project.apply plugin: 'cloudfoundry'
-    }
+    int instances = -1
+    boolean startApp = true
 
-    @Test
-    @Ignore
-    public void testInfo() {
-        project.tasks['cf-info'].with {
-          target = 'http://api.cloudfoundry.com'
-          execute()
+    protected void ensureWarFile() {
+        if (!getWarFile() || !getWarFile().isFile()) {
+            throw new GradleException("You must specify a valid WAR file ('${getWarFile()}' is not valid)")
         }
     }
 }

@@ -15,28 +15,29 @@
 
 package org.gradle.cf
 
-import org.junit.Test
-import org.gradle.testfixtures.ProjectBuilder
-import org.gradle.api.Project
-import static org.junit.Assert.*
-import org.junit.Before
-import org.junit.Ignore
+import org.cloudfoundry.client.lib.CloudApplication
 
-class CloudFoundryPluginTest {
-    Project project
+/**
+ * Configuration for the Cloud Foundry plugin.
+ * 
+ * @author Cedric Champeau
+ */
+class CloudFoundryPluginExtension {
+    // primary config options
+    String target = 'http://api.cloudfoundry.com'
+    String username = ''
+    String password = ''
+    
+    // application configuration
+    String application
+    String framework = CloudApplication.SPRING
+    boolean startApp = true
+    int memory = 512
+    int instances = -1
+    List<String> uris
+    List<String> services
+    File warFile
 
-    @Before
-    public void setUp() {
-        project = ProjectBuilder.builder().build()
-        project.apply plugin: 'cloudfoundry'
-    }
-
-    @Test
-    @Ignore
-    public void testInfo() {
-        project.tasks['cf-info'].with {
-          target = 'http://api.cloudfoundry.com'
-          execute()
-        }
-    }
+    // used by delete service
+    String service
 }

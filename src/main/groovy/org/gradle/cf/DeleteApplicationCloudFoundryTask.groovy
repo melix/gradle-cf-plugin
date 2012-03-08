@@ -13,29 +13,29 @@
  * limitations under the License.
  */
 
-apply plugin: 'groovy'
-apply plugin: 'idea'
-apply plugin: 'maven'
 
-repositories {
-    mavenCentral()
-    mavenRepo url:'http://maven.springframework.org/milestone/'
-}
 
-dependencies {
-    compile gradleApi()
-    compile 'org.cloudfoundry:cloudfoundry-client-lib:0.7.1'
-    groovy group: 'org.codehaus.groovy', name: 'groovy', version: '1.8.6'
-    testCompile 'junit:junit:4.8.2'
-}
+package org.gradle.cf
 
-group = 'org.gradle.cf'
-version = '0.1.0-SNAPSHOT'
+import org.gradle.api.tasks.TaskAction
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repo'))
+/**
+ * Task used to delete an application. If the application name is '*', then
+ * all applications are deleted.
+ */
+class DeleteApplicationCloudFoundryTask extends AbstractCloudFoundryTask {
+    String application
+
+    @TaskAction
+    void deleteApplication() {
+        connectToCloudFoundry()
+        if (client && getApplication()) {
+            if ('*' == getApplication()) {
+                client.deleteAllApplications()
+            } else {
+                client.deleteApplication(getApplication())
+            }
+            client.logout()
         }
     }
 }

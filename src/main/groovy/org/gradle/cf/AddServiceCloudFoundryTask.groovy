@@ -13,29 +13,27 @@
  * limitations under the License.
  */
 
-apply plugin: 'groovy'
-apply plugin: 'idea'
-apply plugin: 'maven'
 
-repositories {
-    mavenCentral()
-    mavenRepo url:'http://maven.springframework.org/milestone/'
-}
 
-dependencies {
-    compile gradleApi()
-    compile 'org.cloudfoundry:cloudfoundry-client-lib:0.7.1'
-    groovy group: 'org.codehaus.groovy', name: 'groovy', version: '1.8.6'
-    testCompile 'junit:junit:4.8.2'
-}
 
-group = 'org.gradle.cf'
-version = '0.1.0-SNAPSHOT'
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repo'))
-        }
+
+
+package org.gradle.cf
+
+import org.gradle.api.tasks.TaskAction
+import org.cloudfoundry.client.lib.CloudService
+
+/**
+ * Task used to add a service.
+ *
+ * @author Cedric Champeau
+ */
+class AddServiceCloudFoundryTask extends AbstractCloudFoundryTask {
+    String service
+
+    @TaskAction
+    void addService() {
+        throw new UnsupportedOperationException()
     }
 }

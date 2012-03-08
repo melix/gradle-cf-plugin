@@ -13,30 +13,30 @@
  * limitations under the License.
  */
 
+
+
 package org.gradle.cf
 
-import org.junit.Test
-import org.gradle.testfixtures.ProjectBuilder
-import org.gradle.api.Project
-import static org.junit.Assert.*
-import org.junit.Before
-import org.junit.Ignore
+import org.gradle.api.tasks.TaskAction
+import org.cloudfoundry.client.lib.CloudApplication
 
-class CloudFoundryPluginTest {
-    Project project
-
-    @Before
-    public void setUp() {
-        project = ProjectBuilder.builder().build()
-        project.apply plugin: 'cloudfoundry'
-    }
-
-    @Test
-    @Ignore
-    public void testInfo() {
-        project.tasks['cf-info'].with {
-          target = 'http://api.cloudfoundry.com'
-          execute()
+/**
+ * A basic task which can be used to check the status of an application.
+ */
+class StatusCloudFoundryTask extends AbstractCloudFoundryTask {
+    String application
+    
+    @TaskAction
+    void login() {
+        connectToCloudFoundry()
+        if (client) {
+            CloudApplication app = client.getApplication(getApplication())
+            log """Application '${app.name} is ${app.state}'
+URIs: ${app.uris.join(" ")}
+Memory: ${app.memory}MB
+Services: ${app.services.join(" ")}
+Instances: ${app.runningInstances}/${app.instances}
+"""
         }
     }
 }

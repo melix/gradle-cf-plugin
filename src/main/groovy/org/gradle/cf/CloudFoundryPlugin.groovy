@@ -15,12 +15,38 @@
 
 package org.gradle.cf
 
-import org.gradle.api.Project
 import org.gradle.api.Plugin
-
+import org.gradle.api.Project
 
 class CloudFoundryPlugin implements Plugin<Project> {
     void apply(Project project) {
-	println 'ok'
+        // register extension
+        def config = new CloudFoundryPluginExtension()
+        project.extensions.cloudfoundry = config
+        config.application = project.name
+
+        // register tasks
+        project.task('cf-login', type: LoginCloudFoundryTask)
+        project.task('cf-start', type: StartApplicationCloudFoundryTask)
+        project.task('cf-restart', type: StartApplicationCloudFoundryTask)
+        project.task('cf-stop', type: StopApplicationCloudFoundryTask)
+        project.task('cf-info', type: InfoCloudFoundryTask)
+        project.task('cf-status', type: StatusCloudFoundryTask)
+        project.task('cf-delete-app', type: DeleteApplicationCloudFoundryTask)
+        project.task('cf-add-service', type: AddServiceCloudFoundryTask)
+        project.task('cf-delete-service', type: DeleteServiceCloudFoundryTask)
+        project.task('cf-push', type: PushApplicationCloudFoundryTask)
+        project.task('cf-update', type: UpdateApplicationCloudFoundryTask)
+
+        // initiate properties
+        project.tasks.withType(AbstractCloudFoundryTask).each { task ->
+            config.properties.each { p, v ->
+                if (p!='class' && p!='metaClass') {
+                    if (task.hasProperty(p)) {
+                        task.conventionMapping[p] = { config.getProperty(p) }
+                    }
+                }
+            }
+        }
     }
 }

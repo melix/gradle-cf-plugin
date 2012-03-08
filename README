@@ -1,0 +1,71 @@
+GRADLE PLUGIN FOR CLOUD FOUNDRY
+===============================
+
+This plugin allows you to deploy, update, remove applications thanks to Gradle tasks. It is intended to
+replace the use of vmc to deploy such applications.
+
+The plugin adds the following tasks:
+
+* cf-info: Connects to a CloudFoundry platform and returns info about the platform
+* cf-login: Logs in, then logs out from the platform. Used to check credentials.
+* cf-push: Deploys an application
+* cf-update: Updates an application
+* cf-start: Starts an application
+* cf-stop: Stops an application
+* cf-restart: Restarts an application
+* cf-status: Displays information about an application
+* cf-delete-app: Removes an application from the cloud
+* cf-delete-service: Removes a service
+
+Configuring
+-----------
+
+Configuration is either project based or task based. It is simpler to use project configuration. Here is a sample
+Gradle project.
+
+```buildscript {
+       repositories {
+   	mavenRepo url:'http://maven.springframework.org/milestone/'
+           mavenLocal()
+   	mavenCentral()
+       }
+       dependencies {
+           classpath group: 'org.gradle.cf', name: 'gradle-cf-plugin', version: '0.1.0-SNAPSHOT'
+       }
+   }
+
+   apply plugin: 'cloudfoundry'
+
+   cloudfoundry {
+      username = 'login@domain.foo'
+      password = 's3cr3t'
+      application = 'appName'
+      framework = 'grails'
+      warFile = new File('/path/to/app.war')
+      uris = ['http://appName.cloudfoundry.com']
+   }```
+
+Then usage is simple:
+
+This will deploy the application:
+```gradle cf-push```
+
+The configuration options are:
+* target: the URL of the target API (http://api.cloudfoundry.com by default)
+* username: your username
+* password: your password
+* application: the name of your application (defaults to the Gradle project name)
+* framework: the identifer of the framework your application is using
+* startApp: should the application be started right after upload? (defaults to true)
+* memory: amount of memory for an application (defaults to 512)
+* instances: if >0, number of instances
+* URIs: list of URIs where to deploy
+* services: list of services the application uses
+* warFile (type: File): path to the WAR file to be deployed
+* service: name of the service to be deleted (if '*', all services are removed)
+
+Future work
+-----------
+
+Future work includes ability to create services, add users and support other features of Cloud Foundry. Any help
+is appreciated.
