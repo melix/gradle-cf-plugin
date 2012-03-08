@@ -25,7 +25,12 @@ import org.cloudfoundry.client.lib.CloudApplication
  */
 class StatusCloudFoundryTask extends AbstractCloudFoundryTask {
     String application
-    
+
+    StatusCloudFoundryTask() {
+        super()
+        description = 'Returns information about an application deployed on the cloud'
+    }
+
     @TaskAction
     void login() {
         connectToCloudFoundry()

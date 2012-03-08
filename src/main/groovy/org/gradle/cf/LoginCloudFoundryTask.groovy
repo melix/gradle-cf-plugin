@@ -21,6 +21,12 @@ import org.gradle.api.tasks.TaskAction
  * A basic task which can be used to verify credentials. It logs in, then logs out.
  */
 class LoginCloudFoundryTask extends AbstractCloudFoundryTask {
+
+    LoginCloudFoundryTask() {
+        super()
+        description = 'Logs in then out to verify credentials'
+    }
+
     @TaskAction
     void login() {
         connectToCloudFoundry()

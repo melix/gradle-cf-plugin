@@ -23,6 +23,11 @@ import org.gradle.api.tasks.TaskAction
 class StartApplicationCloudFoundryTask extends AbstractCloudFoundryTask {
     String application
 
+    StartApplicationCloudFoundryTask() {
+        super()
+        description = 'Starts an application'
+    }
+
     @TaskAction
     void startApplication() {
         connectToCloudFoundry()

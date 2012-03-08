@@ -26,6 +26,13 @@ import org.gradle.api.tasks.TaskAction
 class DeleteApplicationCloudFoundryTask extends AbstractCloudFoundryTask {
     String application
 
+    DeleteApplicationCloudFoundryTask() {
+        super()
+        description = 'Deletes an application from the cloud'
+    }
+
+
+
     @TaskAction
     void deleteApplication() {
         connectToCloudFoundry()

@@ -29,6 +29,13 @@ abstract class AbstractCloudFoundryTask extends DefaultTask {
     String password
     String target = 'http://api.cloudfoundry.com'
 
+    AbstractCloudFoundryTask() {
+        super()
+        group = 'CloudFoundry'
+    }
+
+
+
     protected void log(msg) {
         println "CloudFoundry - $msg"
     }

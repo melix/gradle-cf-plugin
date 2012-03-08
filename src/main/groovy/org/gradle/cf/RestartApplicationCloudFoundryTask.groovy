@@ -25,6 +25,11 @@ import org.gradle.api.tasks.TaskAction
 class RestartApplicationCloudFoundryTask extends AbstractCloudFoundryTask {
     String application
 
+    RestartApplicationCloudFoundryTask() {
+        super()
+        description = 'Restarts an application'
+    }
+
     @TaskAction
     void startApplication() {
         connectToCloudFoundry()

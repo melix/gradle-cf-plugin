@@ -25,6 +25,11 @@ import org.cloudfoundry.client.lib.CloudInfo
  */
 class InfoCloudFoundryTask extends AbstractCloudFoundryTask {
 
+    InfoCloudFoundryTask() {
+        super()
+        description = 'Displays information about the target CloudFoundry platform'
+    }
+
     @TaskAction
     void info() {
         connectToCloudFoundry()

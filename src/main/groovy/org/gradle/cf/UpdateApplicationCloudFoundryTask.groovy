@@ -29,6 +29,10 @@ import org.cloudfoundry.client.lib.CloudApplication
  * @author Cedric Champeau
  */
 class UpdateApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFoundryTask {
+    UpdateApplicationCloudFoundryTask() {
+        super()
+        description = 'Updates an application which is already deployed'
+    }
 
     @TaskAction
     void update() {

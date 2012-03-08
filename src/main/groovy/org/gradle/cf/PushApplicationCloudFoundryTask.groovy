@@ -27,6 +27,11 @@ import org.gradle.api.GradleException
  */
 class PushApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFoundryTask {
 
+    PushApplicationCloudFoundryTask() {
+        super()
+        description = 'Pushes an application to the cloud'
+    }
+
     @TaskAction
     void push() {
         ensureWarFile()

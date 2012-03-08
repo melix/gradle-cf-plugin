@@ -23,6 +23,11 @@ import org.gradle.api.tasks.TaskAction
 class StopApplicationCloudFoundryTask extends AbstractCloudFoundryTask {
     String application
 
+    StopApplicationCloudFoundryTask() {
+        super()
+        description = 'Stops an application'
+    }
+
     @TaskAction
     void stopApplication() {
         connectToCloudFoundry()
