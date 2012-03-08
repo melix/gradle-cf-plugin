@@ -26,23 +26,23 @@ import org.gradle.api.tasks.TaskAction
  * all services are deleted.
  */
 class DeleteServiceCloudFoundryTask extends AbstractCloudFoundryTask {
-    String service
+    String serviceName
 
     DeleteServiceCloudFoundryTask() {
         super()
         description = 'Deletes a service from the cloud'
     }
 
-
-
     @TaskAction
     void deleteService() {
         connectToCloudFoundry()
-        if (client && getService()) {
-            if ('*' == getService()) {
+        if (client && getServiceName()) {
+            if ('*' == getServiceName()) {
+                log "Deleting all services"
                 client.deleteAllServices()
             } else {
-                client.deleteService(getService())
+                log "Deleting '${getServiceName()}' service"
+                client.deleteService(getServiceName())
             }
             client.logout()
         }

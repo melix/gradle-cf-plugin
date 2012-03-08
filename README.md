@@ -16,6 +16,7 @@ The plugin adds the following tasks:
 * cf-status: Displays information about an application
 * cf-delete-app: Removes an application from the cloud
 * cf-delete-service: Removes a service
+* cf-add-service: Add a service
 
 Configuring
 -----------
@@ -62,10 +63,35 @@ The configuration options are:
 * URIs: list of URIs where to deploy
 * services: list of services the application uses
 * warFile (type: File): path to the WAR file to be deployed
-* service: name of the service to be deleted (if '*', all services are removed)
+
+Adding a service
+----------------
+
+Adding a service makes use of another configuration section:
+```
+cloudfoundryService {
+  	serviceName = 'service1'
+   	vendor = 'mongodb'
+   	version = '1.8'
+   }
+```
+
+The ```cloudfoundryService``` section accepts several parameters:
+* serviceName: the name of the service to be created. If no service name is specified, a service name is generated.
+* vendor: the name of the service vendor (mongodb, ...), see cf-info for a list of available services
+* version (optional): the version of the service
+* tier (optional): the tier option of the service (by default, 'free')
+* type (optional): the type of the service
+* bind (optional): false by default. If true, the service is bound to an application. In that case, the application name must be specified.
+
+Removing a service
+------------------
+
+Removing a service makes use of the same ```cloudfoundryService``` section, and uses the ```serviceName``` option. If
+the value of the service name is ```*```, then *all services* are removed.
 
 Future work
 -----------
 
-Future work includes ability to create services, add users and support other features of Cloud Foundry. Any help
+Future work includes ability to add users and support other features of Cloud Foundry. Any help
 is appreciated.

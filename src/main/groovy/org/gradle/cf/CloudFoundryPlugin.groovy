@@ -23,6 +23,8 @@ class CloudFoundryPlugin implements Plugin<Project> {
         // register extension
         def config = new CloudFoundryPluginExtension()
         project.extensions.cloudfoundry = config
+        def serviceConfig = new CloudFoundryServiceExtension()
+        project.extensions.cloudfoundryService = serviceConfig
         config.application = project.name
 
         // register tasks
@@ -47,6 +49,14 @@ class CloudFoundryPlugin implements Plugin<Project> {
                     }
                 }
             }
+        }
+        project.tasks.withType(AddServiceCloudFoundryTask).each { task ->
+            ['serviceName','vendor','version','type','tier','bind'].each { p ->
+                task.conventionMapping[p] = { serviceConfig.getProperty(p) }
+            }
+        }
+        project.tasks.withType(DeleteServiceCloudFoundryTask).each { task ->
+            task.conventionMapping.serviceName = { serviceConfig.serviceName }
         }
     }
 }
