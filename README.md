@@ -17,6 +17,8 @@ The plugin adds the following tasks:
 * cf-delete-app: Removes an application from the cloud
 * cf-delete-service: Removes a service
 * cf-add-service: Add a service
+* cf-bind: Binds a service to an application
+* cf-unbind: Unbinds a service from an application
 
 Configuring
 -----------

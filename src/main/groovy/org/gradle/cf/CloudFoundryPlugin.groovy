@@ -37,6 +37,8 @@ class CloudFoundryPlugin implements Plugin<Project> {
         project.task('cf-delete-app', type: DeleteApplicationCloudFoundryTask)
         project.task('cf-add-service', type: AddServiceCloudFoundryTask)
         project.task('cf-delete-service', type: DeleteServiceCloudFoundryTask)
+        project.task('cf-bind', type: BindServiceCloudFoundryTask)
+        project.task('cf-unbind', type: UnbindServiceCloudFoundryTask)
         project.task('cf-push', type: PushApplicationCloudFoundryTask)
         project.task('cf-update', type: UpdateApplicationCloudFoundryTask)
 
@@ -55,8 +57,10 @@ class CloudFoundryPlugin implements Plugin<Project> {
                 task.conventionMapping[p] = { serviceConfig.getProperty(p) }
             }
         }
-        project.tasks.withType(DeleteServiceCloudFoundryTask).each { task ->
-            task.conventionMapping.serviceName = { serviceConfig.serviceName }
+        [DeleteServiceCloudFoundryTask, BindServiceCloudFoundryTask, UnbindServiceCloudFoundryTask].each { svc ->
+            project.tasks.withType(svc).each { task ->
+                task.conventionMapping.serviceName = { serviceConfig.serviceName }
+            }
         }
     }
 }
