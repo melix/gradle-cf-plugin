@@ -37,6 +37,7 @@ class PushApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFoun
         ensureWarFile()
         connectToCloudFoundry()
         if (client) {
+            checkValidMemory()
             boolean found = true
             try {
                 client.getApplication(getApplication())

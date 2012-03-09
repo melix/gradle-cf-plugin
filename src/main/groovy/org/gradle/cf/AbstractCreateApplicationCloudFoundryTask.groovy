@@ -16,6 +16,7 @@
 package org.gradle.cf
 
 import org.gradle.api.GradleException
+import org.cloudfoundry.client.lib.CloudInfo
 
 /**
  * Base class for tasks related to the createApplication API.
@@ -23,6 +24,8 @@ import org.gradle.api.GradleException
  * @author Cedric Champeau
  */
 abstract class AbstractCreateApplicationCloudFoundryTask extends AbstractCloudFoundryTask {
+    private static final ArrayList<Integer> DEFAULT_MEMORY_SIZES = [64, 128, 256, 512, 1024, 2048]
+
     String application
     String framework
     int memory
@@ -36,6 +39,24 @@ abstract class AbstractCreateApplicationCloudFoundryTask extends AbstractCloudFo
     protected void ensureWarFile() {
         if (!getWarFile() || !getWarFile().isFile()) {
             throw new GradleException("You must specify a valid WAR file ('${getWarFile()}' is not valid)")
+        }
+    }
+
+    protected void checkValidMemory(int freed = 0) {
+        int requestedMemory = getMemory()
+        CloudInfo info = client.cloudInfo
+        if (!info.limits || !info.usage) {
+            if (!(requestedMemory in DEFAULT_MEMORY_SIZES)) {
+                throw new GradleException("You must choose memory size in this list $DEFAULT_MEMORY_SIZES")
+            }
+        }
+        int available = freed+info.limits.maxTotalMemory-info.usage.totalMemory
+        def valid = DEFAULT_MEMORY_SIZES.findAll { it <= available }
+        if (valid.empty) {
+            throw new GradleException("Memory quota exceeded!")
+        }
+        if (!(requestedMemory in valid)) {
+            throw new GradleException("You must choose memory size in this list $DEFAULT_MEMORY_SIZES")
         }
     }
 }

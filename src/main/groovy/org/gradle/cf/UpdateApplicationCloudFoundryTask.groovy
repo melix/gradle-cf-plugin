@@ -54,6 +54,8 @@ class UpdateApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFo
                 throw new GradleException("Application '${getApplication()}' is not deployed. Use 'cf-push' instead.")
             }
 
+            checkValidMemory(app.memory)
+
             log "Deploying '${getWarFile()}'"
             client.uploadApplication(getApplication(), getWarFile())
 
