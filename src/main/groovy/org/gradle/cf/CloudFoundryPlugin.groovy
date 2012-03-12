@@ -50,14 +50,18 @@ class CloudFoundryPlugin implements Plugin<Project> {
             config.properties.each { p, v ->
                 if (p!='class' && p!='metaClass') {
                     if (task.hasProperty(p)) {
-                        task.conventionMapping[p] = { config.getProperty(p) }
+                        task.conventionMapping[p] = {
+                            project.hasProperty("cloudfoundry.$p")?project.properties["cloudfoundry.$p"]:config.getProperty(p)
+                        }
                     }
                 }
             }
         }
         project.tasks.withType(AddServiceCloudFoundryTask).each { task ->
             ['serviceName','vendor','version','type','tier','bind'].each { p ->
-                task.conventionMapping[p] = { serviceConfig.getProperty(p) }
+                task.conventionMapping[p] = {
+                    project.hasProperty("cloudfoundryService.$p")?project.properties["cloudfoundryService.$p"]:serviceConfig.getProperty(p)
+                }
             }
         }
         [DeleteServiceCloudFoundryTask, BindServiceCloudFoundryTask, UnbindServiceCloudFoundryTask].each { svc ->

@@ -95,6 +95,15 @@ Removing a service
 Removing a service makes use of the same ```cloudfoundryService``` section, and uses the ```serviceName``` option. If
 the value of the service name is ```*```, then *all services* are removed.
 
+Overriding properties from command line
+---------------------------------------
+
+In addition to the build.gradle based configuration, it is also possible to use command line options to set properties.
+For example, to create a new service, you can use the following command line (assuming you set the cloudfoundry section
+in the build.gradle file):
+
+```gradle cf-add-service -PcloudfoundryService.serviceName='mongodb-1' -PcloudfoundryService.vendor='mongodb'```
+
 Future work
 -----------
 

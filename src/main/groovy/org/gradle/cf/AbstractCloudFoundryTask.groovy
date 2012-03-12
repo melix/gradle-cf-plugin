@@ -34,8 +34,6 @@ abstract class AbstractCloudFoundryTask extends DefaultTask {
         group = 'CloudFoundry'
     }
 
-
-
     protected void log(msg) {
         println "CloudFoundry - $msg"
     }
