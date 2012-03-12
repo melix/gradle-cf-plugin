@@ -1,21 +1,24 @@
+import org.gradle.api.artifacts.maven.MavenDeployment
+
 /*
- * Copyright 2012 the original author or authors.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2012 the original author or authors.
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
     mavenCentral()
@@ -49,12 +52,18 @@ artifacts {
     archives javadocJar
 }
 
+signing {
+    sign configurations.archives
+}
+
 def credentials = [userName: System.getProperty('deployUser'), password: System.getProperty('deployPass')]
 
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(id:'sonatype-nexus-staging',url: uri('../melix-mvn-repo/releases'), authentication: credentials)
+            beforeDeployment { MavenDeployment deployment -> signPom(deployment) }
+
+            repository(id:'sonatype-nexus-staging',url: uri('https://oss.sonatype.org/service/local/staging/deploy/maven2'), authentication: credentials)
             snapshotRepository(id:'sonatype-nexus-snapshots', url: uri('https://oss.sonatype.org/content/repositories/snapshots'), authentication: credentials)
             pom.project {
                 name 'CloudFoundry plugin for Gradle'
@@ -78,6 +87,21 @@ uploadArchives {
                     developer(id:'melix', name:'Cédric Champeau')
                 }
                 description('A plugin for Gradle that allows various operations on the CloudFoundry platform, like deploying, managing services, ...')
+            }
+
+            // courtesy of http://jedicoder.blogspot.com/2011/11/automated-gradle-project-deployment-to.html
+            pom.withXml { XmlProvider xmlProvider ->
+                def xml = xmlProvider.asString()
+                def pomXml = new XmlParser().parse(new ByteArrayInputStream(xml.toString().bytes))
+
+                pomXml.version[0] + { packaging('jar') }
+
+                def newXml = new StringWriter()
+                def printer = new XmlNodePrinter(new PrintWriter(newXml))
+                printer.preserveWhitespace = true
+                printer.print(pomXml)
+                xml.setLength(0)
+                xml.append(newXml.toString())
             }
         }
     }
