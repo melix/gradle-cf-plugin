@@ -8,6 +8,7 @@ The plugin adds the following tasks:
 
 * cf-info: Connects to a CloudFoundry platform and returns info about the platform
 * cf-login: Logs in, then logs out from the platform. Used to check credentials.
+* cf-apps: Lists applications on the cloud platform
 * cf-push: Deploys an application
 * cf-update: Updates an application
 * cf-start: Starts an application
@@ -19,6 +20,8 @@ The plugin adds the following tasks:
 * cf-add-service: Add a service
 * cf-bind: Binds a service to an application
 * cf-unbind: Unbinds a service from an application
+* cf-add-user: Registers a user to the cloud
+* cf-delete-user: Unregisters the user from the cloud
 
 Configuring
 -----------
