@@ -33,6 +33,7 @@ class CloudFoundryPlugin implements Plugin<Project> {
         project.task('cf-restart', type: StartApplicationCloudFoundryTask)
         project.task('cf-stop', type: StopApplicationCloudFoundryTask)
         project.task('cf-info', type: InfoCloudFoundryTask)
+        project.task('cf-apps', type: AppsCloudFoundryTask)
         project.task('cf-status', type: StatusCloudFoundryTask)
         project.task('cf-delete-app', type: DeleteApplicationCloudFoundryTask)
         project.task('cf-add-service', type: AddServiceCloudFoundryTask)
