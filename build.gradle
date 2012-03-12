@@ -49,13 +49,20 @@ artifacts {
     archives javadocJar
 }
 
+def credentials = [userName: System.getProperty('deployUser'), password: System.getProperty('deployPass')]
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: uri('../melix-mvn-repo/releases'))
-            snapshotRepository(url: uri('../melix-mvn-repo/snapshots'))
+            repository(id:'sonatype-nexus-staging',url: uri('../melix-mvn-repo/releases'), authentication: credentials)
+            snapshotRepository(id:'sonatype-nexus-snapshots', url: uri('https://oss.sonatype.org/content/repositories/snapshots'), authentication: credentials)
             pom.project {
                 name 'CloudFoundry plugin for Gradle'
+                parent {
+                    groupId 'org.sonatype.oss'
+                    artifactId 'oss-parent'
+                    version '7'
+                }
                 licenses {
                     license {
                         name 'The Apache Software License, Version 2.0'
@@ -63,7 +70,10 @@ uploadArchives {
                         distribution 'repo'
                     }
                 }
-                scm(url:'https://github.com/melix/gradle-cf-plugin', connection:'scm:git:git@github.com:melix/gradle-cf-plugin.git')
+                scm(
+                        url:'git@github.com:melix/gradle-cf-plugin.git',
+                        connection:'scm:git:git@github.com:melix/gradle-cf-plugin.git',
+                        developerConnection:'scm:git:git@github.com:melix/gradle-cf-plugin.git')
                 developers {
                     developer(id:'melix', name:'Cédric Champeau')
                 }
