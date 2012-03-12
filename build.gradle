@@ -29,7 +29,7 @@ dependencies {
     testCompile 'junit:junit:4.8.2'
 }
 
-group = 'org.gradle.cf'
+group = 'org.gradle.api.plugins'
 version = '0.1.0-SNAPSHOT'
 
 uploadArchives {
@@ -38,12 +38,6 @@ uploadArchives {
             repository(url: uri('../melix-mvn-repo/releases'))
             snapshotRepository(url: uri('../melix-mvn-repo/snapshots'))
             pom.project {
-                repositories {
-                    repository(
-                        id: 'spring',
-                        url: 'http://maven.springframework.org/milestone/'
-                    )
-                }
                 licenses {
                     license {
                         name 'The Apache Software License, Version 2.0'
@@ -51,6 +45,11 @@ uploadArchives {
                         distribution 'repo'
                     }
                 }
+                scm(url:'https://github.com/melix/gradle-cf-plugin', connection:'scm:git:git@github.com:melix/gradle-cf-plugin.git')
+                developers {
+                    developer(id:'melix', name:'Cédric Champeau')
+                }
+                description('A plugin for Gradle that allows various operations on the CloudFoundry platform, like deploying, managing services, ...')
             }
         }
     }

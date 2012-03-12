@@ -31,12 +31,10 @@ Gradle project.
 
 ```buildscript {
        repositories {
-   	mavenRepo url:'http://maven.springframework.org/milestone/'
-           mavenLocal()
-   	mavenCentral()
+   	     mavenCentral()
        }
        dependencies {
-           classpath group: 'org.gradle.cf', name: 'gradle-cf-plugin', version: '0.1.0-SNAPSHOT'
+           classpath group: 'org.gradle.api.plugins', name: 'gradle-cf-plugin', version: '0.1.0-SNAPSHOT'
        }
    }
 
