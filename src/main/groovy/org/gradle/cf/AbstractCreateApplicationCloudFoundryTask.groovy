@@ -28,17 +28,20 @@ abstract class AbstractCreateApplicationCloudFoundryTask extends AbstractCloudFo
 
     String application
     String framework
+    String applicationFramework
+    String runtime
+    String command
     int memory
     List<String> uris
     List<String> services
-    File warFile
+    File file
 
     int instances = -1
     boolean startApp = true
 
     protected void ensureWarFile() {
-        if (!getWarFile() || !getWarFile().isFile()) {
-            throw new GradleException("You must specify a valid WAR file ('${getWarFile()}' is not valid)")
+        if (!getFile() || !getFile().isFile()) {
+            throw new GradleException("You must specify a valid WAR file ('${getFile()}' is not valid)")
         }
     }
 

@@ -45,7 +45,7 @@ Gradle project.
       password = 's3cr3t'
       application = 'appName'
       framework = 'grails'
-      warFile = new File('/path/to/app.war')
+      file = new File('/path/to/app.war')
       uris = ['http://appName.cloudfoundry.com']
    }```
 
@@ -65,7 +65,7 @@ The configuration options are:
 * instances: if >0, number of instances
 * URIs: list of URIs where to deploy
 * services: list of services the application uses
-* warFile (type: File): path to the WAR file to be deployed
+* file (type: File): path to the WAR file to be deployed
 
 Adding a service
 ----------------
@@ -101,6 +101,32 @@ For example, to create a new service, you can use the following command line (as
 in the build.gradle file):
 
 ```gradle cf-add-service -PcloudfoundryService.serviceName='mongodb-1' -PcloudfoundryService.vendor='mongodb'```
+
+Support for standalone applications
+-----------------------------------
+
+CloudFoundry has support for standalone applications. In that case, you must configure the following options:
+* framework (standalone)
+* applicationFramework (standalone)
+* runtime (most likely, 'java')
+* command (startup command)
+
+For example:
+```
+cloudfoundry {
+   target='http://api.vcap.me'
+   username = 'user@domain.com'
+   password='foobar'
+   application = 'myapp'
+   framework = 'standalone'
+   applicationFramework='standalone'
+   runtime = 'java'
+   command = "$name/bin/$name"
+   file = distZip.archivePath
+   uris = ['http://myurl.vcap.me']
+   memory = 256
+}
+```
 
 Future work
 -----------

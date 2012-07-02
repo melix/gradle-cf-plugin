@@ -56,8 +56,8 @@ class UpdateApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFo
 
             checkValidMemory(app.memory)
 
-            log "Deploying '${getWarFile()}'"
-            client.uploadApplication(getApplication(), getWarFile())
+            log "Deploying '${getFile()}'"
+            client.uploadApplication(getApplication(), getFile())
 
             if (getInstances()>0 && app.instances!=getInstances()) {
                 log "Updating number of instances to ${getInstances()}"

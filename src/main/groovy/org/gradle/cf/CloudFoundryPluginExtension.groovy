@@ -31,12 +31,15 @@ class CloudFoundryPluginExtension {
     // application configuration
     String application
     String framework = CloudApplication.SPRING
+    String applicationFramework
+    String runtime
+    String command
     boolean startApp = true
     int memory = 512
     int instances = -1
     List<String> uris
     List<String> services
-    File warFile
+    File file
 
     // used by delete service
     String service
