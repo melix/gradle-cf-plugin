@@ -15,6 +15,7 @@
 
 package org.gradle.cf
 
+import org.cloudfoundry.client.lib.CloudApplication
 import org.gradle.api.GradleException
 import org.cloudfoundry.client.lib.CloudInfo
 
@@ -35,6 +36,7 @@ abstract class AbstractCreateApplicationCloudFoundryTask extends AbstractCloudFo
     List<String> uris
     List<String> services
     File file
+    Map<String, String> envers
 
     int instances = -1
     boolean startApp = true

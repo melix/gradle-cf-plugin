@@ -22,6 +22,11 @@ The plugin adds the following tasks:
 * cf-unbind: Unbinds a service from an application
 * cf-add-user: Registers a user to the cloud
 * cf-delete-user: Unregisters the user from the cloud
+* cf-env: Lists environment variables
+* cf-add-env: Adds environment variables to the application
+* cf-delete-env: Removes environment variables from the application
+* cf-map: Maps uris to the application
+* cf-unmap: Unmaps uris from the application
 
 Configuring
 -----------

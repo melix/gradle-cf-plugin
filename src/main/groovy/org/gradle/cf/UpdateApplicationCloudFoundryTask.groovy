@@ -56,6 +56,13 @@ class UpdateApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFo
 
             checkValidMemory(app.memory)
 
+            if (getEnvers()) {
+                log 'Applying environment variables: ' + getEnvers()
+                def envAsMap = app.getEnvAsMap()
+                envAsMap += getEnvers()
+                client.updateApplicationEnv(getApplication(), envAsMap)
+            }
+
             log "Deploying '${getFile()}'"
             client.uploadApplication(getApplication(), getFile())
 
@@ -67,7 +74,7 @@ class UpdateApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFo
             if (getUris() as Set != app.getUris() as Set) {
                 client.updateApplicationUris(application, uris)
             }
-            
+
             if (isStartApp() && app.state == CloudApplication.AppState.STOPPED) {
                 log "Starting '${getApplication()}'"
                 client.startApplication(getApplication())
