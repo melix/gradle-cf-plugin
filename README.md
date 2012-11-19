@@ -29,7 +29,8 @@ Configuring
 Configuration is either project based or task based. It is simpler to use project configuration. Here is a sample
 Gradle project.
 
-```buildscript {
+```
+buildscript {
        repositories {
    	     mavenCentral()
        }
@@ -47,7 +48,8 @@ Gradle project.
       framework = 'grails'
       file = new File('/path/to/app.war')
       uris = ['http://appName.cloudfoundry.com']
-   }```
+   }
+```
 
 Then usage is simple:
 
@@ -66,6 +68,7 @@ The configuration options are:
 * URIs: list of URIs where to deploy
 * services: list of services the application uses
 * file (type: File): path to the WAR file to be deployed
+* envers: environment variables
 
 Adding a service
 ----------------
