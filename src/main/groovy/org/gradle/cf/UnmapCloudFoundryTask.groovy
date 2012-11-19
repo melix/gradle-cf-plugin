@@ -36,7 +36,7 @@ class UnmapCloudFoundryTask extends AbstractMapCloudFoundryTask {
 
         def app = client?.getApplication(getApplication())
         def applicationUris = app.uris
-        applicationUris -= getUris()
+        applicationUris = (applicationUris - getUris().collect { it as String }).unique()
         client?.updateApplicationUris(getApplication(), applicationUris)
         app.setUris(applicationUris)
 
