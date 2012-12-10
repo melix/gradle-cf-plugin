@@ -64,7 +64,12 @@ class PushApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFoun
                 log "Creating application '${getApplication()}'"
                 client.createApplication(getApplication(), getFramework(), getMemory(), getUris(), getServices())
             }
-            
+
+            if (getEnvers()) {
+                log 'Applying environment variables: ' + getEnvers()
+                client.updateApplicationEnv(getApplication(), getEnvers())
+            }
+
             log "Deploying '${getFile()}'"
             client.uploadApplication(getApplication(), getFile())
 
@@ -72,7 +77,7 @@ class PushApplicationCloudFoundryTask extends AbstractCreateApplicationCloudFoun
                 log "Updating number of instances to ${getInstances()}"
                 client.updateApplicationInstances(getApplication(), getInstances())
             }
-            
+
             if (isStartApp()) {
                 log "Starting '${getApplication()}'"
                 client.startApplication(getApplication())

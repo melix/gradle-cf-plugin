@@ -41,6 +41,8 @@ class CloudFoundryPluginExtension {
     List<String> services
     File file
 
+    Map<String, String> envers = [:]
+
     // used by delete service
     String service
 }

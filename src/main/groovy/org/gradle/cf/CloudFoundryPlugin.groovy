@@ -44,6 +44,12 @@ class CloudFoundryPlugin implements Plugin<Project> {
         project.task('cf-update', type: UpdateApplicationCloudFoundryTask)
         project.task('cf-add-user', type: AddUserCloudFoundryTask)
         project.task('cf-delete-user', type: DeleteUserCloudFoundryTask)
+        project.task('cf-env', type: EnvCloudFoundryTask)
+        project.task('cf-add-env', type: AddEnvCloudFoundryTask)
+        project.task('cf-delete-env', type: DeleteEnvCloudFoundryTask)
+        project.task('cf-map', type: MapCloudFoundryTask)
+        project.task('cf-unmap', type: UnmapCloudFoundryTask)
+
 
         // initiate properties
         project.tasks.withType(AbstractCloudFoundryTask).each { task ->
