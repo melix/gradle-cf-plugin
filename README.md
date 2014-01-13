@@ -1,3 +1,6 @@
+
+*This plugin has been superceded by https://github.com/cloudfoundry/cf-java-client/tree/master/cloudfoundry-gradle-plugin*
+
 GRADLE PLUGIN FOR CLOUD FOUNDRY
 ===============================
 
